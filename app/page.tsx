@@ -273,11 +273,12 @@ export default function Component() {
 
   const handleOrderSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault()
-    // Ici vous pourriez envoyer la commande à votre backend
-    alert("Commande envoyée avec succès !")
-    setCart([])
-    setIsOrderModalOpen(false)
-    setOrderForm({ name: "", email: "", phone: "", address: "", notes: "" })
+    // Redirection vers la page de commande
+    window.location.href = 'https://au-temple-du-sushi-bouc-bel-air.order.app.hd.digital/menus'
+  }
+
+  function handleOrderClick() {
+    window.open('https://au-temple-du-sushi-bouc-bel-air.order.app.hd.digital/menus', '_blank')
   }
 
   return (
@@ -326,7 +327,7 @@ export default function Component() {
                 <DialogTrigger asChild>
                   <Button className="bg-temple-pink hover:bg-temple-pink/90 text-black font-semibold relative">
                     <ShoppingCart className="w-4 h-4 mr-2" />
-                    Commander
+                    Reserver
                     {cart.length > 0 && (
                       <Badge className="absolute -top-2 -right-2 bg-red-500 text-white text-xs">
                         {cart.reduce((total, item) => total + item.quantity, 0)}
@@ -335,13 +336,6 @@ export default function Component() {
                   </Button>
                 </DialogTrigger>
               </Dialog>
-              <Button
-                variant="outline"
-                size="icon"
-                className="border-temple-pink text-temple-pink hover:bg-temple-pink/10 bg-transparent"
-              >
-                <User className="w-4 h-4" />
-              </Button>
               <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
                 {isMenuOpen ? <X className="w-6 h-6" /> : <MenuIcon className="w-6 h-6" />}
               </Button>
@@ -374,7 +368,7 @@ export default function Component() {
               <Button
                 size="lg"
                 className="bg-temple-pink hover:bg-temple-pink/90 text-black px-8 py-4 text-lg font-semibold"
-                onClick={() => setIsOrderModalOpen(true)}
+                onClick={() => handleOrderClick()}
               >
                 <ShoppingCart className="w-5 h-5 mr-2" />
                 Commander maintenant
@@ -789,7 +783,7 @@ export default function Component() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[...Array(8)].map((_, index) => (
+            {['img0.jpeg', 'img1.jpg', 'img2.jpg', 'img3.jpg', 'img4.jpg', 'img5.jpg', 'img6.jpg', 'img7.jpg'].map((img, index) => (
               <div
                 key={index}
                 className={`aspect-square relative group overflow-hidden rounded-lg transition-all duration-500 ease-in-out hover:scale-105 ${instagramInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
@@ -797,7 +791,7 @@ export default function Component() {
                 style={{ transitionDelay: `${400 + index * 100}ms` }}
               >
                 <Image
-                  src={`/img0.jpeg?height=300&width=300&query=beautiful+sushi+platter+${index + 1}`}
+                  src={`/${img}?height=300&width=300&query=beautiful+sushi+platter+${index + 1}`}
                   alt={`Instagram post ${index + 1}`}
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-500 ease-in-out"
@@ -842,7 +836,7 @@ export default function Component() {
                   className="bg-gray-800 border-gray-700 text-white transition-all duration-300 ease-in-out focus:scale-105 font-medium"
                   rows={4}
                 />
-                <Button className="w-full bg-temple-pink hover:bg-temple-pink/90 transition-all duration-300 ease-in-out hover:scale-105 font-semibold">
+                <Button className="w-full bg-temple-pink text-black hover:bg-temple-pink/90 transition-all duration-300 ease-in-out hover:scale-105 font-semibold">
                   Envoyer le message
                 </Button>
               </form>
@@ -1041,7 +1035,7 @@ export default function Component() {
 
               {cart.length > 0 && (
                 <form onSubmit={handleOrderSubmit} className="space-y-4">
-                  <Input
+                  {/* <Input
                     placeholder="Nom complet"
                     value={orderForm.name}
                     onChange={(e) => setOrderForm({ ...orderForm, name: e.target.value })}
@@ -1070,9 +1064,12 @@ export default function Component() {
                     placeholder="Notes spéciales (optionnel)"
                     value={orderForm.notes}
                     onChange={(e) => setOrderForm({ ...orderForm, notes: e.target.value })}
-                  />
-                  <Button type="submit" className="w-full bg-temple-pink hover:bg-temple-pink/90 font-semibold">
-                    Confirmer la commande - {getTotalPrice()}€
+                  /> */}
+                  <Button asChild className="w-full bg-temple-pink text-black hover:bg-temple-pink/90 font-semibold">
+                    <Link href="tel:+33661387545">
+                    <Phone className="w-5 h-5 mr-2" />
+                    Contactez le restaurant
+                    </Link>
                   </Button>
                 </form>
               )}
@@ -1085,11 +1082,11 @@ export default function Component() {
       <div className="fixed bottom-6 right-6 z-40">
         <Button
           size="lg"
-          className="bg-temple-pink hover:bg-temple-pink/90 text-white shadow-lg rounded-full px-6 py-3 font-semibold relative"
+          className="bg-temple-pink hover:bg-temple-pink/90 text-black  text-md shadow-lg rounded-full px-6 py-3 font-semibold relative"
           onClick={() => setIsOrderModalOpen(true)}
         >
           <ShoppingCart className="w-5 h-5 mr-2" />
-          Commander
+          Reserver
           {cart.length > 0 && (
             <Badge className="absolute -top-2 -right-2 bg-red-500 text-white text-xs">
               {cart.reduce((total, item) => total + item.quantity, 0)}
