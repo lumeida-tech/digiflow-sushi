@@ -37,8 +37,12 @@ import { ReviewMarquee } from "@/components/review"
 import { TypingAnimation } from "@/components/magicui/typing-animation"
 import { NumberTicker } from "@/components/magicui/number-ticker"
 import { ShineBorder } from "@/components/magicui/shine-border"
-import NosCreations from "@/components/our-creation-section"
-import { Meteors } from "@/components/magicui/meteors"
+import dynamic from "next/dynamic"
+
+const NosCreations = dynamic(
+  () => import('../components/our-creation-section'),
+  { ssr: false }
+)
 
 // Hook personnalisé pour détecter la visibilité des sections
 function useInView(options = {}) {

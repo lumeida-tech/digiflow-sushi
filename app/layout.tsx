@@ -11,7 +11,7 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   title: "Au Temple du Sushi - Bouc Bel Air",
   description: "L'Art du Sushi, l'Âme du Japon. Restaurant de sushi haut de gamme à Bouc Bel Air.",
-    generator: 'v0.dev'
+  
 }
 
 export default function RootLayout({

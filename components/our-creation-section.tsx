@@ -36,6 +36,7 @@ const SushiCarousel = ({
   // Responsive breakpoints
   useEffect(() => {
     const updateCardsPerView = () => {
+      if (typeof window === 'undefined') return;
       const width = window.innerWidth;
       if (width < 640) { // mobile
         setResponsiveCardsPerView(1);
@@ -45,10 +46,16 @@ const SushiCarousel = ({
         setResponsiveCardsPerView(cardsPerView);
       }
     };
-
-    updateCardsPerView();
-    window.addEventListener('resize', updateCardsPerView);
-    return () => window.removeEventListener('resize', updateCardsPerView);
+  
+    // Vérifier si window existe avant d'ajouter les event listeners
+    if (typeof window !== 'undefined') {
+      updateCardsPerView();
+      window.addEventListener('resize', updateCardsPerView);
+      
+      return () => {
+        window.removeEventListener('resize', updateCardsPerView);
+      };
+    }
   }, [cardsPerView]);
 
   useEffect(() => {

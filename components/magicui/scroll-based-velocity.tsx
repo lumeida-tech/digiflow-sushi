@@ -59,11 +59,16 @@ function ParallaxText({
         setRepetitions(newRepetitions);
       }
     };
-
-    calculateRepetitions();
-
-    window.addEventListener("resize", calculateRepetitions);
-    return () => window.removeEventListener("resize", calculateRepetitions);
+  
+    // Vérifier si on est côté client avant toute interaction avec window
+    if (typeof window !== 'undefined') {
+      calculateRepetitions();
+      window.addEventListener("resize", calculateRepetitions);
+      
+      return () => {
+        window.removeEventListener("resize", calculateRepetitions);
+      };
+    }
   }, [children]);
 
   const x = useTransform(baseX, (v) => `${wrap(-100 / repetitions, 0, v)}%`);
