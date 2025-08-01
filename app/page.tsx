@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Package, Truck } from "lucide-react"
 import {
   MapPin,
   Phone,
@@ -30,6 +31,11 @@ import {
   Minus,
   UtensilsCrossed,
   ShoppingBag,
+  Navigation,
+  Send,
+  Mail,
+  Facebook,
+  Youtube,
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -38,6 +44,8 @@ import { TypingAnimation } from "@/components/magicui/typing-animation"
 import { NumberTicker } from "@/components/magicui/number-ticker"
 import { ShineBorder } from "@/components/magicui/shine-border"
 import dynamic from "next/dynamic"
+import LanguageSwitcher from "@/components/language-switcher"
+import GoogleReviewsCard from "@/components/google-review-card"
 
 const NosCreations = dynamic(
   () => import('../components/our-creation-section'),
@@ -156,6 +164,8 @@ export default function Component() {
       ],
     },
   ]
+
+  const menuLivraisons = menuSurPlace
 
   const menuAEmporter = [
     {
@@ -323,7 +333,8 @@ export default function Component() {
             </div>
 
             <div className="flex items-center space-x-4">
-              <Dialog open={isOrderModalOpen} onOpenChange={setIsOrderModalOpen}>
+              <LanguageSwitcher />
+              {/* <Dialog open={isOrderModalOpen} onOpenChange={setIsOrderModalOpen}>
                 <DialogTrigger asChild>
                   <Button className="bg-temple-pink hover:bg-temple-pink/90 text-black font-semibold relative">
                     <ShoppingCart className="w-4 h-4 mr-2" />
@@ -335,7 +346,7 @@ export default function Component() {
                     )}
                   </Button>
                 </DialogTrigger>
-              </Dialog>
+              </Dialog> */}
               <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
                 {isMenuOpen ? <X className="w-6 h-6" /> : <MenuIcon className="w-6 h-6" />}
               </Button>
@@ -357,11 +368,11 @@ export default function Component() {
 
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/40" />
 
-       
+
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
           <div className="animate-fade-in-up">
             <TypingAnimation className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-temple-pink bg-clip-text text-transparent">
-            Le Sushi dans sa plus belle expression
+              Le Sushi dans sa plus belle expression
             </TypingAnimation>
             <p className="text-xl md:text-2xl mb-8 text-white font-light">L'Art du Sushi, l'Âme du Japon.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -417,17 +428,17 @@ export default function Component() {
               <div className="flex items-center space-x-6">
                 <div className="text-center">
                   <div className="text-3xl font-bold text-temple-pink">
-                    <NumberTicker className="text-temple-pink" value={10}/>+ </div>
+                    <NumberTicker className="text-temple-pink" value={10} />+ </div>
                   <div className="text-sm text-gray-600 font-medium">Années d'expérience</div>
                 </div>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-temple-pink">
-                    <NumberTicker className="text-temple-pink" value={1000}/>+</div>
+                    <NumberTicker className="text-temple-pink" value={1000} />+</div>
                   <div className="text-sm text-gray-600 font-medium">Clients satisfaits</div>
                 </div>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-temple-pink">
-                    <NumberTicker className="text-temple-pink" value={50}/>+</div>
+                    <NumberTicker className="text-temple-pink" value={50} />+</div>
                   <div className="text-sm text-gray-600 font-medium">Créations uniques</div>
                 </div>
               </div>
@@ -470,7 +481,7 @@ export default function Component() {
           </div>
 
           <Tabs defaultValue="sur-place" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mb-12 bg-white">
+            <TabsList className="grid w-full grid-cols-3 mb-12 bg-white">
               <TabsTrigger
                 value="sur-place"
                 className="data-[state=active]:bg-temple-pink data-[state=active]:text-white font-semibold flex items-center gap-2"
@@ -485,12 +496,19 @@ export default function Component() {
                 <ShoppingBag className="w-4 h-4" />
                 À Emporter
               </TabsTrigger>
+              <TabsTrigger
+                value="livraisons"
+                className="data-[state=active]:bg-temple-pink data-[state=active]:text-white font-semibold flex items-center gap-2"
+              >
+                <Package className="w-4 h-4" />
+                Libre-service
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="sur-place">
               {/* Image de présentation pour Sur Place */}
               <div className="mb-12 rounded-2xl overflow-hidden shadow-lg">
-                <div className="relative h-64 ">
+                <div className="relative h-64">
                   <Image
                     src="/IMG_2746 2.jpeg"
                     alt="Intérieur du restaurant"
@@ -499,7 +517,6 @@ export default function Component() {
                     className="w-full h-full object-cover blur-sm"
                   />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    {/* <Meteors number={10} /> */}
                     <div className="text-center text-white">
                       <h3 className="text-3xl font-bold mb-2">Savourez l'expérience complète</h3>
                       <p className="text-lg opacity-90">Dans notre cadre chaleureux et authentique</p>
@@ -508,27 +525,133 @@ export default function Component() {
                 </div>
               </div>
 
-              <div className="grid lg:grid-cols-2 gap-12">
-                {menuSurPlace.map((category, index) => (
+              <div className="grid lg:grid-cols-3 gap-8">
+                {[...menuSurPlace, 
+                  {
+                    category: "Rolls Spéciaux",
+                    items: [
+                      {
+                        name: "Dragon Roll",
+                        description: "Avocat, concombre, anguille grillée, sauce teriyaki",
+                        price: 14,
+                        image: "/final-img.png"
+                      },
+                      {
+                        name: "Rainbow Roll",
+                        description: "Saumon, thon, avocat sur california roll",
+                        price: 16,
+                        image: "/final-img.png"
+                      },
+                      {
+                        name: "Spicy Tuna Roll",
+                        description: "Thon épicé, mayo sriracha, graines de sésame",
+                        price: 12,
+                        image: "/final-img.png"
+                      },
+                      {
+                        name: "Philadelphia Roll",
+                        description: "Saumon fumé, fromage frais, concombre",
+                        price: 13,
+                        image: "/final-img.png"
+                      }
+                    ]
+                  }
+                ].map((category, index) => (
                   <div
                     key={index}
-                    className={`space-y-6 transition-all duration-800 ease-in-out ${menusInView
-                      ? "opacity-100 translate-x-0"
-                      : `opacity-0 ${index % 2 === 0 ? "-translate-x-8" : "translate-x-8"}`
+                    className={`group transition-all duration-800 ease-in-out ${menusInView
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 translate-y-12"
                       }`}
-                    style={{ transitionDelay: `${400 + index * 300}ms` }}
+                    style={{ transitionDelay: `${400 + index * 200}ms` }}
                   >
-                    <h3 className="text-2xl font-bold text-gray-900 border-b-2 border-temple-pink pb-2">
-                      {category.category}
-                    </h3>
+                    {/* Header de catégorie avec design premium */}
+                    <div className="relative mb-8">
+                      <div className="bg-gradient-to-r from-temple-pink/5 via-temple-pink/10 to-temple-pink/5 rounded-2xl p-6 backdrop-blur-sm border border-temple-pink/20 group-hover:border-temple-pink/30 transition-all duration-300">
+                        <div className="flex items-center justify-center space-x-3">
+                          <div className="h-1 w-8 bg-gradient-to-r from-transparent to-temple-pink rounded-full"></div>
+                          <h3 className="text-2xl font-bold text-gray-900 text-center">
+                            {category.category}
+                          </h3>
+                          <div className="h-1 w-8 bg-gradient-to-l from-transparent to-temple-pink rounded-full"></div>
+                        </div>
+                      </div>
+                      {/* Decoration dots */}
+                      <div className="absolute -top-2 -right-2 w-4 h-4 bg-temple-pink/20 rounded-full"></div>
+                      <div className="absolute -bottom-2 -left-2 w-3 h-3 bg-temple-pink/30 rounded-full"></div>
+                    </div>
+
+                    {/* Items avec design cards premium */}
                     <div className="space-y-4">
                       {category.items.map((item, itemIndex) => (
                         <Card
                           key={itemIndex}
-                          className={`hover:shadow-md transition-all duration-300 ease-in-out ${menusInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                          className={`group/item relative overflow-hidden border-0 bg-white/70 backdrop-blur-sm hover:bg-white hover:scale-[1.02] hover:shadow-2xl transition-all duration-500 ease-out ${menusInView ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"
                             }`}
-                          style={{ transitionDelay: `${600 + index * 300 + itemIndex * 100}ms` }}
+                          style={{ 
+                            transitionDelay: `${600 + index * 200 + itemIndex * 100}ms`,
+                            boxShadow: '0 4px 20px -2px rgba(0, 0, 0, 0.1)'
+                          }}
                         >
+                          {/* Gradient border effect */}
+                          <div className="absolute inset-0 bg-gradient-to-r from-temple-pink/20 via-transparent to-temple-pink/20 opacity-0 group-hover/item:opacity-100 transition-opacity duration-300"></div>
+                          
+                          <CardContent className="relative p-5">
+                            <div className="flex gap-4">
+                              {/* Image du plat avec effet hover */}
+                              <div className="flex-shrink-0 relative">
+                                <div className="w-20 h-20 rounded-xl overflow-hidden ring-2 ring-temple-pink/10 group-hover/item:ring-temple-pink/30 transition-all duration-300">
+                                  <Image
+                                    src={item.image || "/final-img.png"}
+                                    alt={item.name}
+                                    width={80}
+                                    height={80}
+                                    className="w-full h-full object-cover group-hover/item:scale-110 transition-transform duration-300"
+                                  />
+                                </div>
+                                {/* Glowing dot indicator */}
+                                <div className="absolute -top-1 -right-1 w-3 h-3 bg-temple-pink rounded-full opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 animate-pulse"></div>
+                              </div>
+
+                              {/* Détails du plat */}
+                              <div className="flex-1">
+                                <div className="flex justify-between items-start mb-3">
+                                  <h4 className="text-lg font-bold text-gray-900 group-hover/item:text-temple-pink transition-colors duration-300">{item.name}</h4>
+                                  <div className="flex items-center space-x-2">
+                                    <Badge variant="secondary" className="bg-gradient-to-r from-temple-pink/15 to-temple-pink/10 text-temple-pink font-bold border border-temple-pink/20 group-hover/item:from-temple-pink/25 group-hover/item:to-temple-pink/20 transition-all duration-300">
+                                      {item.price}€
+                                    </Badge>
+                                    <Button
+                                      size="sm"
+                                      className="bg-gradient-to-r from-temple-pink to-temple-pink/90 hover:from-temple-pink/90 hover:to-temple-pink text-white shadow-lg hover:shadow-xl transition-all duration-300 group-hover/item:scale-110"
+                                      onClick={() => addToCart(item)}
+                                    >
+                                      <Plus className="w-4 h-4" />
+                                    </Button>
+                                  </div>
+                                </div>
+                                <p className="text-gray-600 font-medium text-sm leading-relaxed">{item.description}</p>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="a-emporter">
+              <div className="grid lg:grid-cols-1 gap-8">
+                {menuAEmporter.map((category, index) => (
+                  <div key={index} className="space-y-6">
+                    <h3 className="text-2xl font-bold text-gray-900 border-b-2 border-temple-pink pb-2">
+                      {category.category}
+                    </h3>
+                    <div className="grid md:grid-cols-3 gap-6">
+                      {category.items.map((item, itemIndex) => (
+                        <Card key={itemIndex} className="hover:shadow-lg transition-all duration-300 ease-in-out">
                           <CardContent className="p-6">
                             <div className="flex gap-4">
                               {/* Image du plat */}
@@ -543,7 +666,6 @@ export default function Component() {
                                   />
                                 </div>
                               </div>
-                              
                               {/* Détails du plat */}
                               <div className="flex-1">
                                 <div className="flex justify-between items-start mb-2">
@@ -573,42 +695,134 @@ export default function Component() {
               </div>
             </TabsContent>
 
-            <TabsContent value="a-emporter">
-              <div className="grid lg:grid-cols-1 gap-8">
-                {menuAEmporter.map((category, index) => (
-                  <div key={index} className="space-y-6">
-                    <h3 className="text-2xl font-bold text-gray-900 border-b-2 border-temple-pink pb-2">
-                      {category.category}
-                    </h3>
-                    <div className="grid md:grid-cols-3 gap-6">
+            <TabsContent value="livraisons">
+              {/* Image de présentation pour Libre-service */}
+              <div className="mb-12 rounded-2xl overflow-hidden shadow-lg">
+                <div className="relative h-64">
+                  <Image
+                    src="/IMG_2746 2.jpeg"
+                    alt="Service libre-service"
+                    width={800}
+                    height={300}
+                    className="w-full h-full object-cover blur-sm"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-center text-white">
+                      <h3 className="text-3xl font-bold mb-2">Service rapide et pratique</h3>
+                      <p className="text-lg opacity-90">Récupérez votre commande à votre rythme</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid lg:grid-cols-3 gap-8">
+                {[...menuSurPlace, 
+                  {
+                    category: "Rolls Spéciaux",
+                    items: [
+                      {
+                        name: "Dragon Roll",
+                        description: "Avocat, concombre, anguille grillée, sauce teriyaki",
+                        price: 14,
+                        image: "/final-img.png"
+                      },
+                      {
+                        name: "Rainbow Roll",
+                        description: "Saumon, thon, avocat sur california roll",
+                        price: 16,
+                        image: "/final-img.png"
+                      },
+                      {
+                        name: "Spicy Tuna Roll",
+                        description: "Thon épicé, mayo sriracha, graines de sésame",
+                        price: 12,
+                        image: "/final-img.png"
+                      },
+                      {
+                        name: "Philadelphia Roll",
+                        description: "Saumon fumé, fromage frais, concombre",
+                        price: 13,
+                        image: "/final-img.png"
+                      }
+                    ]
+                  }
+                ].map((category, index) => (
+                  <div
+                    key={index}
+                    className={`group transition-all duration-800 ease-in-out ${menusInView
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 translate-y-12"
+                      }`}
+                    style={{ transitionDelay: `${400 + index * 200}ms` }}
+                  >
+                    {/* Header de catégorie avec design premium */}
+                    <div className="relative mb-8">
+                      <div className="bg-gradient-to-r from-temple-pink/5 via-temple-pink/10 to-temple-pink/5 rounded-2xl p-6 backdrop-blur-sm border border-temple-pink/20 group-hover:border-temple-pink/30 transition-all duration-300">
+                        <div className="flex items-center justify-center space-x-3">
+                          <div className="h-1 w-8 bg-gradient-to-r from-transparent to-temple-pink rounded-full"></div>
+                          <h3 className="text-2xl font-bold text-gray-900 text-center">
+                            {category.category}
+                          </h3>
+                          <div className="h-1 w-8 bg-gradient-to-l from-transparent to-temple-pink rounded-full"></div>
+                        </div>
+                      </div>
+                      {/* Decoration dots */}
+                      <div className="absolute -top-2 -right-2 w-4 h-4 bg-temple-pink/20 rounded-full"></div>
+                      <div className="absolute -bottom-2 -left-2 w-3 h-3 bg-temple-pink/30 rounded-full"></div>
+                    </div>
+
+                    {/* Items avec design cards premium */}
+                    <div className="space-y-4">
                       {category.items.map((item, itemIndex) => (
-                        <Card key={itemIndex} className="hover:shadow-lg transition-all duration-300 ease-in-out">
-                          <CardContent className="p-6">
-                            <div className="aspect-video mb-4 rounded-lg overflow-hidden">
-                              <Image
-                                src={item.image || "/final-img.png"}
-                                alt={item.name}
-                                width={300}
-                                height={200}
-                                className="w-full h-full object-cover"
-                              />
-                            </div>
-                            <div className="flex justify-between items-start mb-2">
-                              <h4 className="text-lg font-semibold text-gray-900">{item.name}</h4>
-                              <div className="flex items-center space-x-2">
-                                <Badge variant="secondary" className="bg-temple-pink/10 text-temple-pink font-semibold">
-                                  {item.price}€
-                                </Badge>
-                                <Button
-                                  size="sm"
-                                  className="bg-temple-pink hover:bg-temple-pink/90 text-white"
-                                  onClick={() => addToCart(item)}
-                                >
-                                  <Plus className="w-4 h-4" />
-                                </Button>
+                        <Card
+                          key={itemIndex}
+                          className={`group/item relative overflow-hidden border-0 bg-white/70 backdrop-blur-sm hover:bg-white hover:scale-[1.02] hover:shadow-2xl transition-all duration-500 ease-out ${menusInView ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"
+                            }`}
+                          style={{ 
+                            transitionDelay: `${600 + index * 200 + itemIndex * 100}ms`,
+                            boxShadow: '0 4px 20px -2px rgba(0, 0, 0, 0.1)'
+                          }}
+                        >
+                          {/* Gradient border effect */}
+                          <div className="absolute inset-0 bg-gradient-to-r from-temple-pink/20 via-transparent to-temple-pink/20 opacity-0 group-hover/item:opacity-100 transition-opacity duration-300"></div>
+                          
+                          <CardContent className="relative p-5">
+                            <div className="flex gap-4">
+                              {/* Image du plat avec effet hover */}
+                              <div className="flex-shrink-0 relative">
+                                <div className="w-20 h-20 rounded-xl overflow-hidden ring-2 ring-temple-pink/10 group-hover/item:ring-temple-pink/30 transition-all duration-300">
+                                  <Image
+                                    src={item.image || "/final-img.png"}
+                                    alt={item.name}
+                                    width={80}
+                                    height={80}
+                                    className="w-full h-full object-cover group-hover/item:scale-110 transition-transform duration-300"
+                                  />
+                                </div>
+                                {/* Glowing dot indicator */}
+                                <div className="absolute -top-1 -right-1 w-3 h-3 bg-temple-pink rounded-full opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 animate-pulse"></div>
+                              </div>
+
+                              {/* Détails du plat */}
+                              <div className="flex-1">
+                                <div className="flex justify-between items-start mb-3">
+                                  <h4 className="text-lg font-bold text-gray-900 group-hover/item:text-temple-pink transition-colors duration-300">{item.name}</h4>
+                                  <div className="flex items-center space-x-2">
+                                    <Badge variant="secondary" className="bg-gradient-to-r from-temple-pink/15 to-temple-pink/10 text-temple-pink font-bold border border-temple-pink/20 group-hover/item:from-temple-pink/25 group-hover/item:to-temple-pink/20 transition-all duration-300">
+                                      {item.price}€
+                                    </Badge>
+                                    <Button
+                                      size="sm"
+                                      className="bg-gradient-to-r from-temple-pink to-temple-pink/90 hover:from-temple-pink/90 hover:to-temple-pink text-white shadow-lg hover:shadow-xl transition-all duration-300 group-hover/item:scale-110"
+                                      onClick={() => addToCart(item)}
+                                    >
+                                      <Plus className="w-4 h-4" />
+                                    </Button>
+                                  </div>
+                                </div>
+                                <p className="text-gray-600 font-medium text-sm leading-relaxed">{item.description}</p>
                               </div>
                             </div>
-                            <p className="text-gray-600 font-medium">{item.description}</p>
                           </CardContent>
                         </Card>
                       ))}
@@ -736,23 +950,12 @@ export default function Component() {
               }`}
           >
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Ce que disent nos clients</h2>
+
             <p className="text-xl text-gray-600 mb-8 font-medium">Vos avis sont notre plus belle récompense. Découvrez pourquoi ils nous aiment !</p>
             <ReviewMarquee />
             <div className="mt-12 text-center animate-fade-in-up delay-300">
 
-              <Button
-                asChild
-                variant="outline"
-                className="border-temple-pink text-temple-pink hover:bg-temple-pink/10 bg-transparent transition-all duration-300 ease-in-out hover:scale-105 font-semibold"
-              >
-                <Link
-                  href="https://www.google.com/maps/search/?api=1&query=Au+temple+du+sushi+Bouc+Bel+Air"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Voir tous les avis Google
-                </Link>
-              </Button>
+              <GoogleReviewsCard />
 
             </div>
           </div>
@@ -771,11 +974,73 @@ export default function Component() {
             className={`text-center mb-16 transition-all duration-800 ease-in-out delay-200 ${instagramInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Suivez-nous sur Instagram</h2>
-            <p className="text-xl text-gray-600 mb-8 font-medium">@autempledusushi__</p>
+            <h2 className="text-4xl font-bold text-gray-900 mb-8">Suivez-nous sur Instagram</h2>
+            
+            {/* Avatar circulaire avec username */}
+            <div className={`flex flex-col items-center mb-8 transition-all duration-1000 ease-in-out delay-300 ${instagramInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+              <div className="relative mb-4">
+                {/* Bordure gradient Instagram */}
+                <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600 p-0.5 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out hover:scale-105">
+                  <div className="w-full h-full rounded-full bg-white p-1">
+                    <div className="w-full h-full rounded-full overflow-hidden">
+                      <Image
+                        src="/logo-sushi.png?height=50&width=50"
+                        alt="Au Temple du Sushi Avatar"
+                        width={50}
+                        height={50}
+                        className="w-full  h-full object-cover rounded-full"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p className="text-xl text-gray-800 font-semibold mb-2">@autempledusushi__</p>
+            </div>
+
+            {/* Statistiques Instagram animées */}
+            <div className={`flex justify-center items-center gap-8 mb-8 transition-all duration-1000 ease-in-out delay-400 ${instagramInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+              <div className="text-center group">
+                <div className="relative">
+                  <div className={`text-3xl font-bold text-gray-900 mb-1 transition-all duration-700 ease-out ${instagramInView ? "transform scale-100" : "transform scale-75"}`}
+                    style={{ transitionDelay: '500ms' }}>
+                    615
+                  </div>
+                  <div className="text-sm text-gray-500 uppercase tracking-wide font-medium">publications</div>
+                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-temple-pink transition-all duration-500 ease-out group-hover:w-full"></div>
+                </div>
+              </div>
+
+              <div className="w-px h-12 bg-gray-300"></div>
+
+              <div className="text-center group">
+                <div className="relative">
+                  <div className={`text-3xl font-bold text-gray-900 mb-1 transition-all duration-700 ease-out ${instagramInView ? "transform scale-100" : "transform scale-75"}`}
+                    style={{ transitionDelay: '600ms' }}>
+                    12.4K
+                  </div>
+                  <div className="text-sm text-gray-500 uppercase tracking-wide font-medium">abonnés</div>
+                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-temple-pink transition-all duration-500 ease-out group-hover:w-full"></div>
+                </div>
+              </div>
+
+              <div className="w-px h-12 bg-gray-300"></div>
+
+              <div className="text-center group">
+                <div className="relative">
+                  <div className={`text-3xl font-bold text-gray-900 mb-1 transition-all duration-700 ease-out ${instagramInView ? "transform scale-100" : "transform scale-75"}`}
+                    style={{ transitionDelay: '700ms' }}>
+                    386
+                  </div>
+                  <div className="text-sm text-gray-500 uppercase tracking-wide font-medium">abonnements</div>
+                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-temple-pink transition-all duration-500 ease-out group-hover:w-full"></div>
+                </div>
+              </div>
+            </div>
+
             <Button
               variant="outline"
-              className="border-temple-pink text-temple-pink hover:bg-temple-pink/10 bg-transparent transition-all duration-300 ease-in-out hover:scale-105 font-semibold"
+              className={`border-temple-pink text-temple-pink hover:bg-temple-pink/10 bg-transparent transition-all duration-300 ease-in-out hover:scale-105 font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-xl ${instagramInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+              style={{ transitionDelay: '800ms' }}
             >
               <Instagram className="w-5 h-5 mr-2" />
               Suivre
@@ -788,7 +1053,7 @@ export default function Component() {
                 key={index}
                 className={`aspect-square relative group overflow-hidden rounded-lg transition-all duration-500 ease-in-out hover:scale-105 ${instagramInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                   }`}
-                style={{ transitionDelay: `${400 + index * 100}ms` }}
+                style={{ transitionDelay: `${1000 + index * 100}ms` }}
               >
                 <Image
                   src={`/${img}?height=300&width=300&query=beautiful+sushi+platter+${index + 1}`}
@@ -800,95 +1065,207 @@ export default function Component() {
                   <Instagram className="w-8 h-8 text-white" />
                 </div>
               </div>
-            ))} 
+            ))}
           </div>
+          
         </div>
       </section>
 
       {/* Contact Section */}
+
       <section
         ref={contactRef}
-        className={`py-20 bg-gray-900 text-white transition-all duration-1000 ease-in-out ${contactInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
+        className={`relative py-20 bg-gray-900 text-white overflow-hidden transition-all duration-1000 ease-in-out ${contactInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12">
-            <div
-              className={`transition-all duration-800 ease-in-out ${contactInView ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"
-                }`}
-              style={{ transitionDelay: "200ms" }}
-            >
-              <h2 className="text-4xl font-bold mb-8">Contactez-nous</h2>
-              <form className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-4">
-                  <Input
-                    placeholder="Votre nom"
-                    className="bg-gray-800 border-gray-700 text-white transition-all duration-300 ease-in-out focus:scale-105 font-medium"
-                  />
-                  <Input
-                    placeholder="Votre email"
-                    type="email"
-                    className="bg-gray-800 border-gray-700 text-white transition-all duration-300 ease-in-out focus:scale-105 font-medium"
-                  />
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+            }}
+          />
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Header Section */}
+          <div className={`text-center mb-16 transition-all duration-800 ease-in-out ${contactInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+            <h2 className="text-5xl font-bold mb-4 bg-gradient-to-r from-white to-temple-pink bg-clip-text text-transparent">
+              Restons en Contact
+            </h2>
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+              Une question, une réservation ou simplement envie de nous dire bonjour ?
+              Nous sommes là pour vous accompagner dans votre expérience culinaire.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-stretch">
+            {/* Contact Form */}
+            <div className={`transition-all duration-800 ease-in-out h-full ${contactInView ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"}`} style={{ transitionDelay: "200ms" }}>
+              <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-700/50 shadow-2xl h-full flex flex-col">
+                <div className="flex items-center mb-6">
+                  <div className="p-3 bg-temple-pink/20 rounded-lg mr-4">
+                    <Mail className="w-6 h-6 text-temple-pink" />
+                  </div>
+                  <h3 className="text-2xl font-bold">Envoyez-nous un message</h3>
                 </div>
-                <Textarea
-                  placeholder="Votre message"
-                  className="bg-gray-800 border-gray-700 text-white transition-all duration-300 ease-in-out focus:scale-105 font-medium"
-                  rows={4}
-                />
-                <Button className="w-full bg-temple-pink text-black hover:bg-temple-pink/90 transition-all duration-300 ease-in-out hover:scale-105 font-semibold">
-                  Envoyer le message
-                </Button>
-              </form>
+
+                <form className="space-y-6 flex-grow">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="relative group">
+                      <Input
+                        placeholder="Votre nom"
+                        className="bg-gray-700/50 border-gray-600 text-white placeholder-gray-400 h-12 rounded-xl transition-all duration-300 ease-in-out focus:bg-gray-700 focus:border-temple-pink focus:shadow-lg focus:shadow-temple-pink/20 group-hover:border-gray-500"
+                      />
+                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-temple-pink/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                    </div>
+                    <div className="relative group">
+                      <Input
+                        placeholder="Votre email"
+                        type="email"
+                        className="bg-gray-700/50 border-gray-600 text-white placeholder-gray-400 h-12 rounded-xl transition-all duration-300 ease-in-out focus:bg-gray-700 focus:border-temple-pink focus:shadow-lg focus:shadow-temple-pink/20 group-hover:border-gray-500"
+                      />
+                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-temple-pink/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                    </div>
+                  </div>
+
+                  <div className="relative group">
+                    <Input
+                      placeholder="Sujet"
+                      className="bg-gray-700/50 border-gray-600 text-white placeholder-gray-400 h-12 rounded-xl transition-all duration-300 ease-in-out focus:bg-gray-700 focus:border-temple-pink focus:shadow-lg focus:shadow-temple-pink/20 group-hover:border-gray-500"
+                    />
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-temple-pink/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                  </div>
+
+                  <div className="relative group">
+                    <Textarea
+                      placeholder="Votre message..."
+                      className="bg-gray-700/50 border-gray-600 text-white placeholder-gray-400 rounded-xl transition-all duration-300 ease-in-out focus:bg-gray-700 focus:border-temple-pink focus:shadow-lg focus:shadow-temple-pink/20 group-hover:border-gray-500 resize-none"
+                      rows={5}
+                    />
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-temple-pink/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                  </div>
+
+                  <Button className="w-full h-14 bg-gradient-to-r from-temple-pink to-pink-400 hover:from-pink-400 hover:to-temple-pink text-gray-900 font-bold text-lg rounded-xl transition-all duration-300 ease-in-out hover:scale-[1.02] hover:shadow-lg hover:shadow-temple-pink/30 transform">
+                    <Send className="w-5 h-5 mr-2" />
+                    Envoyer le message
+                  </Button>
+                </form>
+              </div>
             </div>
 
-            <div
-              className={`transition-all duration-800 ease-in-out ${contactInView ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"
-                }`}
-              style={{ transitionDelay: "400ms" }}
-            >
-              <h2 className="text-4xl font-bold mb-8">Nous Trouver</h2>
-              <div className="space-y-6 mb-8">
+            {/* Contact Info */}
+            <div className={`space-y-6 transition-all duration-800 ease-in-out h-full ${contactInView ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"}`} style={{ transitionDelay: "400ms" }}>
+              <div className="space-y-4">
                 {[
-                  { icon: MapPin, title: "Adresse", content: "Centre Commercial San Baquis\nBouc Bel Air" },
-                  { icon: Phone, title: "Téléphone", content: "04 XX XX XX XX" },
-                  { icon: Clock, title: "Horaires", content: "Lun - Sam: 11h00 - 22h00\nDimanche: 11h00 - 21h00" },
+                  {
+                    icon: MapPin,
+                    title: "Notre Adresse",
+                    content: "Centre Commercial San Baquis\nBouc Bel Air",
+                    color: "from-blue-500 to-blue-600",
+                    bgColor: "bg-blue-500/20"
+                  },
+                  {
+                    icon: Phone,
+                    title: "Téléphone",
+                    content: "06 61 38 75 45",
+                    color: "from-green-500 to-green-600",
+                    bgColor: "bg-green-500/20"
+                  },
+                  {
+                    icon: Clock,
+                    title: "Nos Horaires",
+                    content: "Lun - Sam: 11h00 - 22h00\nDimanche: 11h00 - 21h00",
+                    color: "from-orange-500 to-orange-600",
+                    bgColor: "bg-orange-500/20"
+                  },
                 ].map((item, index) => (
                   <div
                     key={index}
-                    className={`flex items-start space-x-4 transition-all duration-500 ease-in-out ${contactInView ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"
-                      }`}
-                    style={{ transitionDelay: `${600 + index * 200}ms` }}
+                    className={`group bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 hover:border-gray-600/50 transition-all duration-500 ease-in-out hover:transform hover:scale-[1.02] hover:shadow-lg cursor-pointer ${contactInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+                    style={{ transitionDelay: `${600 + index * 150}ms` }}
                   >
-                    <item.icon className="w-6 h-6 text-temple-pink mt-1" />
-                    <div>
-                      <h3 className="font-semibold mb-1">{item.title}</h3>
-                      <p className="text-gray-300 whitespace-pre-line font-medium">{item.content}</p>
+                    <div className="flex items-start space-x-4">
+                      <div className={`p-3 ${item.bgColor} rounded-lg group-hover:scale-110 transition-transform duration-300`}>
+                        <item.icon className={`w-6 h-6 text-temple-pink`} />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-bold text-lg mb-2 group-hover:text-temple-pink transition-colors duration-300">
+                          {item.title}
+                        </h3>
+                        <p className="text-gray-300 whitespace-pre-line leading-relaxed group-hover:text-gray-200 transition-colors duration-300">
+                          {item.content}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 ))}
               </div>
 
-              {/* Google Maps */}
-              <div className="rounded-lg overflow-hidden h-64">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2892.8!2d5.4!3d43.4!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDPCsDI0JzAwLjAiTiA1wrAyNCcwMC4wIkU!5e0!3m2!1sfr!2sfr!4v1234567890"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title="Localisation Au Temple du Sushi"
-                />
+              {/* Social Media Section */}
+              <div className={`bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 transition-all duration-800 ease-in-out ${contactInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`} style={{ transitionDelay: "1050ms" }}>
+                <h3 className="text-xl font-bold mb-4 text-center">Suivez-nous sur les réseaux sociaux</h3>
+                <div className="flex flex-wrap gap-3 justify-center">
+                  <a href="https://www.facebook.com/share/19UwPk6Ejc/?mibextid=wwXIfr" className="group p-3 bg-blue-600/20 hover:bg-blue-600/30 rounded-lg transition-all duration-300 ease-in-out hover:scale-110 hover:shadow-lg hover:shadow-blue-500/20 flex items-center justify-center">
+                    <Facebook className="w-6 h-6 text-blue-400 group-hover:text-blue-300 transition-colors duration-300" />
+                  </a>
+                  <a href="https://www.instagram.com/autempledusushi__/" className="group p-3 bg-pink-600/20 hover:bg-pink-600/30 rounded-lg transition-all duration-300 ease-in-out hover:scale-110 hover:shadow-lg hover:shadow-pink-500/20 flex items-center justify-center">
+                    <Instagram className="w-6 h-6 text-pink-400 group-hover:text-pink-300 transition-colors duration-300" />
+                  </a>
+                  <a href="https://www.tiktok.com/@au.temple.du.sushi?_t=ZN-8yW8HFTq4ta&_r=1" className="group p-3 bg-gray-900 hover:bg-gray-900/30 rounded-lg transition-all duration-300 ease-in-out hover:scale-110 hover:shadow-lg hover:shadow-gray-500/20 flex items-center justify-center">
+                    <svg
+                      className="w-6 h-6 text-white group-hover:text-gray-200 transition-colors duration-300"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
+                    </svg>
+                  </a>
+                  <a href="https://g.co/kgs/uvnoQDs" className="group p-3 bg-yellow-600/20 hover:bg-yellow-600/30 rounded-lg transition-all duration-300 ease-in-out hover:scale-110 hover:shadow-lg hover:shadow-yellow-500/20 flex items-center justify-center">
+                    <Image src="/google.svg" alt="google" width={26} height={26} className="w-6 h-6 text-yellow-400 group-hover:text-yellow-300 transition-colors duration-300" />
+                  </a>
+                </div>
+                <p className="text-center text-gray-400 text-sm mt-3">
+                  Facebook • Instagram • Tiktok • Google Business
+                </p>
               </div>
             </div>
           </div>
+          {/* Google Maps - Full Width Below */}
+          <div
+            className={`mt-16 bg-gray-800/50 backdrop-blur-sm rounded-2xl p-4 border border-gray-700/50 transition-all duration-800 ease-in-out hover:border-gray-600/50 ${contactInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+            style={{ transitionDelay: "1200ms" }}
+          >
+            <div className="flex items-center mb-4">
+              <div className="p-3 bg-blue-500/20 rounded-lg mr-4">
+                <MapPin className="w-6 h-6 text-blue-400" />
+              </div>
+              <h3 className="text-2xl font-bold">Nous Trouver</h3>
+            </div>
+            <div className="rounded-xl overflow-hidden h-80 relative group">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2892.8!2d5.4!3d43.4!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDPCsDI0JzAwLjAiTiA1wrAyNCcwMC4wIkU!5e0!3m2!1sfr!2sfr!4v1234567890"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Localisation Au Temple du Sushi"
+                className="transition-all duration-300 group-hover:scale-[1.01]"
+              />
+              <div className="absolute inset-0 bg-temple-pink/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-xl" />
+            </div>
+          </div>
+
+          {/* Bottom CTA */}
+
         </div>
       </section>
 
+
       {/* Footer */}
-      <footer className="bg-black text-white py-12">
+      <footer className="bg-gray-900 text-white py-12 border-t border-white/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
@@ -1067,8 +1444,8 @@ export default function Component() {
                   /> */}
                   <Button asChild className="w-full bg-temple-pink text-black hover:bg-temple-pink/90 font-semibold">
                     <Link href="tel:+33661387545">
-                    <Phone className="w-5 h-5 mr-2" />
-                    Contactez le restaurant
+                      <Phone className="w-5 h-5 mr-2" />
+                      Contactez le restaurant
                     </Link>
                   </Button>
                 </form>
