@@ -494,7 +494,7 @@ export default function Component() {
                 className="data-[state=active]:bg-temple-pink data-[state=active]:text-white font-semibold flex items-center gap-2"
               >
                 <ShoppingBag className="w-4 h-4" />
-                À Emporter
+                À Emporter & Livraisons
               </TabsTrigger>
               <TabsTrigger
                 value="livraisons"
