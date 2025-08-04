@@ -39,18 +39,26 @@ import {
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { ReviewMarquee } from "@/components/review"
 import { TypingAnimation } from "@/components/magicui/typing-animation"
 import { NumberTicker } from "@/components/magicui/number-ticker"
 import { ShineBorder } from "@/components/magicui/shine-border"
 import dynamic from "next/dynamic"
 import LanguageSwitcher from "@/components/language-switcher"
 import GoogleReviewsCard from "@/components/google-review-card"
+import { BlurFade } from "@/components/magicui/blur-fade"
+import { AboutImages } from "@/components/about-images"
+import InstagramFeed from "@/components/instagram-feed"
+import GoogleReviews from "@/components/google-reviews"
 
 const NosCreations = dynamic(
   () => import('../components/our-creation-section'),
   { ssr: false }
 )
+
+const ReviewMarquee = dynamic(() => import('@/components/review'), {
+  ssr: false
+});
+
 
 // Hook personnalisé pour détecter la visibilité des sections
 function useInView(options = {}) {
@@ -448,15 +456,14 @@ export default function Component() {
                 }`}
               style={{ transitionDelay: "200ms" }}
             >
-              <ShineBorder shineColor={["#A07CFE", "#FE8FB5", "#FFBE7B"]} />
-
-              <Image
+              <AboutImages />
+              {/* <Image
                 src="/our.webp?height=500&width=600"
                 alt="Notre chef au travail"
                 width={600}
                 height={500}
                 className="rounded-lg shadow-lg object-cover"
-              />
+              /> */}
             </div>
           </div>
         </div>
@@ -951,13 +958,7 @@ export default function Component() {
           >
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Ce que disent nos clients</h2>
 
-            <p className="text-xl text-gray-600 mb-8 font-medium">Vos avis sont notre plus belle récompense. Découvrez pourquoi ils nous aiment !</p>
-            <ReviewMarquee />
-            <div className="mt-12 text-center animate-fade-in-up delay-300">
-
-              <GoogleReviewsCard />
-
-            </div>
+            <GoogleReviews />
           </div>
 
         </div>
@@ -976,98 +977,9 @@ export default function Component() {
           >
             <h2 className="text-4xl font-bold text-gray-900 mb-8">Suivez-nous sur Instagram</h2>
             
-            {/* Avatar circulaire avec username */}
-            <div className={`flex flex-col items-center mb-8 transition-all duration-1000 ease-in-out delay-300 ${instagramInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-              <div className="relative mb-4">
-                {/* Bordure gradient Instagram */}
-                <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600 p-0.5 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out hover:scale-105">
-                  <div className="w-full h-full rounded-full bg-white p-1">
-                    <div className="w-full h-full rounded-full overflow-hidden">
-                      <Image
-                        src="/logo-sushi.png?height=50&width=50"
-                        alt="Au Temple du Sushi Avatar"
-                        width={50}
-                        height={50}
-                        className="w-full  h-full object-cover rounded-full"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <p className="text-xl text-gray-800 font-semibold mb-2">@autempledusushi__</p>
-            </div>
-
-            {/* Statistiques Instagram animées */}
-            <div className={`flex justify-center items-center gap-8 mb-8 transition-all duration-1000 ease-in-out delay-400 ${instagramInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-              <div className="text-center group">
-                <div className="relative">
-                  <div className={`text-3xl font-bold text-gray-900 mb-1 transition-all duration-700 ease-out ${instagramInView ? "transform scale-100" : "transform scale-75"}`}
-                    style={{ transitionDelay: '500ms' }}>
-                    615
-                  </div>
-                  <div className="text-sm text-gray-500 uppercase tracking-wide font-medium">publications</div>
-                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-temple-pink transition-all duration-500 ease-out group-hover:w-full"></div>
-                </div>
-              </div>
-
-              <div className="w-px h-12 bg-gray-300"></div>
-
-              <div className="text-center group">
-                <div className="relative">
-                  <div className={`text-3xl font-bold text-gray-900 mb-1 transition-all duration-700 ease-out ${instagramInView ? "transform scale-100" : "transform scale-75"}`}
-                    style={{ transitionDelay: '600ms' }}>
-                    12.4K
-                  </div>
-                  <div className="text-sm text-gray-500 uppercase tracking-wide font-medium">abonnés</div>
-                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-temple-pink transition-all duration-500 ease-out group-hover:w-full"></div>
-                </div>
-              </div>
-
-              <div className="w-px h-12 bg-gray-300"></div>
-
-              <div className="text-center group">
-                <div className="relative">
-                  <div className={`text-3xl font-bold text-gray-900 mb-1 transition-all duration-700 ease-out ${instagramInView ? "transform scale-100" : "transform scale-75"}`}
-                    style={{ transitionDelay: '700ms' }}>
-                    386
-                  </div>
-                  <div className="text-sm text-gray-500 uppercase tracking-wide font-medium">abonnements</div>
-                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-temple-pink transition-all duration-500 ease-out group-hover:w-full"></div>
-                </div>
-              </div>
-            </div>
-
-            <Button
-              variant="outline"
-              className={`border-temple-pink text-temple-pink hover:bg-temple-pink/10 bg-transparent transition-all duration-300 ease-in-out hover:scale-105 font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-xl ${instagramInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
-              style={{ transitionDelay: '800ms' }}
-            >
-              <Instagram className="w-5 h-5 mr-2" />
-              Suivre
-            </Button>
+            <InstagramFeed /> 
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {['img0.jpeg', 'img1.jpg', 'img2.jpg', 'img3.jpg', 'img4.jpg', 'img5.jpg', 'img6.jpg', 'img7.jpg'].map((img, index) => (
-              <div
-                key={index}
-                className={`aspect-square relative group overflow-hidden rounded-lg transition-all duration-500 ease-in-out hover:scale-105 ${instagramInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                  }`}
-                style={{ transitionDelay: `${1000 + index * 100}ms` }}
-              >
-                <Image
-                  src={`/${img}?height=300&width=300&query=beautiful+sushi+platter+${index + 1}`}
-                  alt={`Instagram post ${index + 1}`}
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-500 ease-in-out"
-                />
-                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out flex items-center justify-center">
-                  <Instagram className="w-8 h-8 text-white" />
-                </div>
-              </div>
-            ))}
-          </div>
-          
         </div>
       </section>
 
