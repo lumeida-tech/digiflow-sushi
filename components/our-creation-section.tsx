@@ -358,55 +358,96 @@ const SushiCarousel = ({
 const defaultSushiDishes: SushiDish[] = [
   {
     id: 1,
-    name: "Dragon Roll Premium",
-    description: "Saumon grillé, avocat, concombre, sauce teriyaki, tobiko orange",
-    imageUrl: "https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=800&auto=format&fit=crop&q=80",
-    rating: 4.9,
-    likes: 342,
-    price: "18€",
-    category: "Premium"
+    name: "Rolls saumon braisé",
+    description: "Avocat, sauce spicy, billes citronnées",
+    imageUrl: "/creation1.jpg",
+    rating: 4.6,
+    likes: 210,
+    price: "10,60€",
+    category: "Rolls"
   },
   {
     id: 2,
-    name: "Rainbow Maki",
-    description: "Thon, saumon, daurade, avocat, riz vinaigré, algue nori",
-    imageUrl: "https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56?w=800&auto=format&fit=crop&q=80",
-    rating: 4.8,
-    likes: 287,
-    price: "22€",
+    name: "L’italien",
+    description: "Tomate, mozza, parmesan, pesto",
+    imageUrl: "/creation2.jpg",
+    rating: 4.7,
+    likes: 245,
+    price: "14,20€",
     category: "Signature"
   },
   {
     id: 3,
-    name: "Sashimi Selection",
-    description: "Sélection de poissons frais du jour, wasabi, gingembre mariné",
-    imageUrl: "https://images.unsplash.com/photo-1553621042-f6e147245754?w=800&auto=format&fit=crop&q=80",
-    rating: 4.7,
-    likes: 195,
-    price: "26€",
-    category: "Traditionnel"
+    name: "California crevette tempura",
+    description: "Avocat, enrobé de saumon braisé, oignon frit",
+    imageUrl: "/creation3.jpeg",
+    rating: 4.5,
+    likes: 198,
+    price: "10,70€",
+    category: "California"
   },
   {
     id: 4,
-    name: "California Deluxe",
-    description: "Crabe, avocat, concombre, mayonnaise épicée, sésame grillé",
-    imageUrl: "https://images.unsplash.com/photo-1611143669185-af224c5e3252?w=800&auto=format&fit=crop&q=80",
-    rating: 4.6,
-    likes: 156,
-    price: "16€",
-    category: "Classique"
+    name: "Roll’s avocat",
+    description: "Mayo, enrobé de thon braisé, pousse de cress",
+    imageUrl: "/creation4.jpeg",
+    rating: 4.4,
+    likes: 180,
+    price: "10,20€",
+    category: "Rolls"
   },
   {
     id: 5,
-    name: "Tempura Fusion",
-    description: "Crevette tempura, avocat, sauce spicy mayo, graines de sésame",
-    imageUrl: "https://images.unsplash.com/photo-1563612116625-3012372fccce?w=800&auto=format&fit=crop&q=80",
-    rating: 4.8,
-    likes: 203,
-    price: "19€",
-    category: "Fusion"
+    name: "California poulet caramélisé",
+    description: "Enrobé de mangue, tobiko",
+    imageUrl: "/creation5.jpeg",
+    rating: 4.6,
+    likes: 213,
+    price: "11,80€",
+    category: "California"
   },
+  {
+    id: 6,
+    name: "California poulet frit",
+    description: "Guacamole, jalapeno, oignon frit",
+    imageUrl: "/creation6.jpeg",
+    rating: 4.5,
+    likes: 200,
+    price: "11,30€",
+    category: "California"
+  },
+  {
+    id: 7,
+    name: "Flocon saumon",
+    description: "Avocat, tobiko, menthe",
+    imageUrl: "/img.jpg",
+    rating: 4.3,
+    likes: 175,
+    price: "8,90€",
+    category: "Rolls"
+  },
+  {
+    id: 8,
+    name: "California saumon",
+    description: "Guacamole, jalapeno",
+    imageUrl: "/img0.jpeg",
+    rating: 4.6,
+    likes: 220,
+    price: "13,80€",
+    category: "California"
+  },
+  {
+    id: 9,
+    name: "California saumon braisé",
+    description: "Enrobé de saumon braisé, truffe",
+    imageUrl: "/img3.jpg",
+    rating: 4.8,
+    likes: 260,
+    price: "15,00€",
+    category: "California"
+  }
 ];
+
 
 const NosCreations = () => {
   return (

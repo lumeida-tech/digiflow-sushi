@@ -5,7 +5,7 @@ const assets = [
   "/about/1.jpeg",
   "/about/2.jpeg",
   "/about/3.jpeg",
-  "/about/4.jpeg",
+  "/about/4.jpg",
   "/about/our.mov",
   "/about/6.jpg",
   "/about/8.jpeg",

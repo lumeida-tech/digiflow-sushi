@@ -30,7 +30,7 @@ const languages: Language[] = [
     }
 ]
 
-export default function LanguageSwitcher() {
+export default function LanguageSwitcher({ className = '' }: { className?: string }) {
     const currentLang = "fr"
     const  changeLang = (lang: 'en' | 'fr') => {
         if (lang === 'fr') {
@@ -50,7 +50,7 @@ export default function LanguageSwitcher() {
                 <Button
                     variant="outline"
                     size="sm"
-                    className="w-[140px] cursor-pointer justify-start gap-2 font-normal"
+                    className={`${className} w-[140px] cursor-pointer justify-start gap-2 font-normal`}
                 >
                     <span className="text-lg leading-none">{getCurrentLanguage().flag}</span>
                     <span>{getCurrentLanguage().name}</span>
